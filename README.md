@@ -14,4 +14,11 @@ The model used for this implementation was a UNet (https://arxiv.org/abs/1505.04
 While the model doesn't achieve such stunning results as the paper mentioned as inspiration for the project, this was never the intention. What this model can do that the paper can't, is provide a means to rapidly transfer any given style on to a large data set of images in a reasonable time. Once the model is trained to transfer style, the only time needed for each style transfer is a single forward pass of the network. This is in contrast to the paper, where each individual style transfer must be optimised separately and takes minutes or even hours.
 
 ## Setup Instructions
-The project can be trained and tested using the step-by-step cells in the Google Colab Notebook. Unless using an offline GPU, it is recommended to connect to one using Colab. The training time for one style is roughly 30 minutes.
+The project can be trained and tested using the step-by-step cells in the Google Colab Notebook. Unless using an offline GPU, it is recommended to connect to one using Colab. The training process first primes the model as a standard autoencoder, reproducing the image shown to it. The full style transfer training is done afterwards.
+
+* Add a folder to the home directory in Google Drive named data
+* Within this add a folder called images containing a small number of jpeg images (~50 should be sufficient)
+* Choose a style image, the higher quality the better. The original model used a .tif image (raw uncompressed file format too large for uploading here). The jpeg provided may not be of high enough quality to produce worthwhile results
+* First, work through the notebook to running the cells used to prime the autoencoder and train this for ~60 epochs (this should take about 10 minutes using a small 50 image data set)
+* Then, run the cells related to training the full model, including adding the style transfer head, load the autoencoder weights into the UNet body and train the full model for ~120 epochs (can take about 2 hours)
+* Once the autoencoder has been trained and its weights saved, this part of the network can be reused when training new styles
